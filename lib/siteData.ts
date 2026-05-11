@@ -10,7 +10,7 @@ export const COMPANY_INFO = {
   },
   description:
     'Ted Fugunt Heating & Air is your trusted local HVAC company serving Chattanooga and surrounding communities. We provide emergency repair, system replacement, maintenance plans, and indoor air quality solutions for homes and businesses.',
-}
+};
 
 export const SERVICE_AREAS = [
   'Chattanooga',
@@ -22,7 +22,7 @@ export const SERVICE_AREAS = [
   'Signal Mountain',
   'Soddy-Daisy',
   'and surrounding communities',
-]
+];
 
 export const CORE_SERVICES = [
   {
@@ -40,8 +40,7 @@ export const CORE_SERVICES = [
   {
     id: 'installation',
     title: 'New HVAC Installation',
-    description:
-      'Professional installation of new systems with financing options available.',
+    description: 'Professional installation of new systems with financing options available.',
     icon: '⚙️',
   },
   {
@@ -59,11 +58,10 @@ export const CORE_SERVICES = [
   {
     id: 'air-quality',
     title: 'Indoor Air Quality',
-    description:
-      'UV lights, air duct cleaning, and sealing for healthier indoor air.',
+    description: 'UV lights, air duct cleaning, and sealing for healthier indoor air.',
     icon: '💨',
   },
-]
+];
 
 export const PRODUCTS = [
   'Carrier Air Conditioners',
@@ -76,13 +74,12 @@ export const PRODUCTS = [
   'UV Lights',
   'Ventilators',
   'Zoning Systems',
-]
+];
 
 export const TESTIMONIALS = [
   {
     name: 'Robert M.',
-    quote:
-      'Great service and value. I had to replace my HVAC system and they had the best value for the dollar. The installation was outstanding. You will not be disappointed with their service.',
+    quote: 'Great service and value. I had to replace my HVAC system and they had the best value for the dollar. The installation was outstanding. You will not be disappointed with their service.',
     rating: 5,
   },
   {
@@ -92,11 +89,10 @@ export const TESTIMONIALS = [
   },
   {
     name: 'Michael T.',
-    quote:
-      'Had an emergency service call at night. They answered right away, came out quickly, and fixed the problem professionally.',
+    quote: 'Had an emergency service call at night. They answered right away, came out quickly, and fixed the problem professionally.',
     rating: 5,
   },
-]
+];
 
 export const TRUST_SIGNALS = [
   {
@@ -129,47 +125,41 @@ export const TRUST_SIGNALS = [
     icon: '📋',
     description: 'Maintenance plans to prevent breakdowns',
   },
-]
+];
 
 export const FAQ = [
   {
     question: 'How quickly can you respond to an emergency call?',
-    answer:
-      'We offer 24/7 emergency service for heating and cooling emergencies. Call (423) 894-3723 anytime, and our team will get you help as soon as possible.',
+    answer: 'We offer 24/7 emergency service for heating and cooling emergencies. Call (423) 894-3723 anytime, and our team will get you help as soon as possible.',
   },
   {
     question: 'Do you offer financing for new system installation?',
-    answer:
-      'Yes! We offer flexible financing options with approved credit to make system replacement affordable. Ask about our current financing specials.',
+    answer: 'Yes! We offer flexible financing options with approved credit to make system replacement affordable. Ask about our current financing specials.',
   },
   {
     question: 'What areas do you service?',
-    answer: `We serve Chattanooga, Harrison, Hixson, Lookout Mountain, Ooltewah, Red Bank, Signal Mountain, Soddy-Daisy, and surrounding communities.`,
+    answer: 'We serve Chattanooga, Harrison, Hixson, Lookout Mountain, Ooltewah, Red Bank, Signal Mountain, Soddy-Daisy, and surrounding communities.',
   },
   {
     question: 'Do you service all brands of HVAC equipment?',
-    answer:
-      'Yes, we service and repair all makes and models of heating and cooling equipment. We're also a Carrier dealer for new installations and replacements.',
+    answer: 'Yes, we service and repair all makes and models of heating and cooling equipment. We\'re also a Carrier dealer for new installations and replacements.',
   },
   {
     question: 'What is a service agreement or maintenance plan?',
-    answer:
-      'A service agreement includes regular maintenance tune-ups to keep your system running efficiently, prevent breakdowns, and save you money on energy bills. We offer several plan options.',
+    answer: 'A service agreement includes regular maintenance tune-ups to keep your system running efficiently, prevent breakdowns, and save you money on energy bills. We offer several plan options.',
   },
   {
     question: 'Do you handle commercial HVAC as well as residential?',
-    answer:
-      'Yes! We provide complete HVAC services for both residential and commercial properties, including design, installation, repair, and maintenance.',
+    answer: 'Yes! We provide complete HVAC services for both residential and commercial properties, including design, installation, repair, and maintenance.',
   },
-]
+];
 
 export const SERVICE_PAGES = [
   {
     slug: 'ac-repair',
     title: 'Air Conditioning Repair in Chattanooga',
     subtitle: 'Fast AC Repair Service When You Need It Most',
-    description:
-      'When your air conditioner quits during a Chattanooga summer, you need fast, reliable service. Our experienced technicians diagnose the problem quickly and get your home cool again.',
+    description: 'When your air conditioner quits during a Chattanooga summer, you need fast, reliable service. Our experienced technicians diagnose the problem quickly and get your home cool again.',
     benefits: [
       'Same-day service available',
       'Expert diagnosis and honest recommendations',
@@ -182,8 +172,7 @@ export const SERVICE_PAGES = [
     slug: 'heating-repair',
     title: 'Heating Repair in Chattanooga',
     subtitle: 'Emergency Heat Repair Available 24/7',
-    description:
-      'When your furnace or heat pump fails in winter, you need immediate help. We respond quickly to heating emergencies to keep your family warm.',
+    description: 'When your furnace or heat pump fails in winter, you need immediate help. We respond quickly to heating emergencies to keep your family warm.',
     benefits: [
       'Emergency service 24/7',
       'Fast diagnosis and repair',
@@ -192,4 +181,4 @@ export const SERVICE_PAGES = [
       'Upfront pricing before repairs begin',
     ],
   },
-]
+];
