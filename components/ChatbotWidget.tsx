@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { X, MessageCircle, Send, Loader } from 'lucide-react'
+import { X, MessageCircle, Send } from 'lucide-react'
 
 interface ConversationMessage {
   id: string
@@ -10,26 +10,20 @@ interface ConversationMessage {
   timestamp: Date
 }
 
-interface QuickReplyButton {
-  label: string
-  value: string
-  emoji: string
-}
-
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [hasOpenedOnce, setHasOpenedOnce] = useState(false)
-  const [step, setStep] = useState<'greeting' | 'need' | 'urgency' | 'zip' | 'lead' | 'confirmation' | 'closed'>('greeting')
+  const [step, setStep] = useState<'greeting' | 'name' | 'phone' | 'zip' | 'need' | 'urgency' | 'notes' | 'confirmation' | 'closed'>('greeting')
   const [messages, setMessages] = useState<ConversationMessage[]>([])
   const [userInput, setUserInput] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
-    selectedNeed: '',
-    isEmergency: '',
-    zipCode: '',
     firstName: '',
     phone: '',
-    email: '',
+    zipCode: '',
+    selectedNeed: '',
+    isEmergency: false,
+    notes: '',
   })
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const autoOpenTimeoutRef = useRef<NodeJS.Timeout>()
@@ -40,11 +34,10 @@ export default function ChatbotWidget() {
       autoOpenTimeoutRef.current = setTimeout(() => {
         setIsOpen(true)
         setHasOpenedOnce(true)
-        // Add initial greeting message
         const greeting: ConversationMessage = {
           id: `msg-${Date.now()}`,
           type: 'bot',
-          text: '👋 Hi there! Need help with your heating or cooling? I can get you connected with a technician fast.',
+          text: '👋 Hi there! Need help with your heating or cooling? I\'ll collect your information so our team can help you right away.',
           timestamp: new Date(),
         }
         setMessages([greeting])
@@ -71,194 +64,133 @@ export default function ChatbotWidget() {
     setMessages((prev) => [...prev, newMessage])
   }
 
-  const handleNeedSelection = (need: string) => {
-    setFormData({ ...formData, selectedNeed: need })
-    addMessage(need, 'user')
-
-    // Small delay for natural feeling
+  const proceedToNextStep = () => {
+    setIsLoading(true)
     setTimeout(() => {
-      setIsLoading(true)
-      setTimeout(() => {
-        setIsLoading(false)
-        const urgencyQuestion = 'Is this an emergency situation right now?'
-        addMessage(urgencyQuestion, 'bot')
-        setStep('urgency')
-      }, 1000)
-    }, 300)
-  }
+      setIsLoading(false)
 
-  const handleUrgencySelection = (isEmergency: boolean) => {
-    const response = isEmergency ? 'Yes, it\'s an emergency' : 'No, it\'s not an emergency'
-    setFormData({ ...formData, isEmergency: isEmergency ? 'yes' : 'no' })
-    addMessage(response, 'user')
-
-    setTimeout(() => {
-      setIsLoading(true)
-      setTimeout(() => {
-        setIsLoading(false)
-
-        if (isEmergency) {
-          // For emergencies, show phone number immediately
-          addMessage(
-            '⚠️ For emergencies, call us right now at (423) 894-3723 — we have technicians available 24/7.',
-            'bot'
-          )
-          setTimeout(() => {
-            addMessage(
-              'Would you still like me to take your info so we can follow up?',
-              'bot'
-            )
-            setStep('zip')
-          }, 800)
-        } else {
-          addMessage(
-            "What's your ZIP code so I can confirm we service your area?",
-            'bot'
-          )
-          setStep('zip')
+      if (step === 'greeting') {
+        addMessage('Let\'s get started!', 'user')
+        setTimeout(() => {
+          addMessage('What\'s your first name?', 'bot')
+          setStep('name')
+        }, 300)
+      } else if (step === 'name') {
+        if (!userInput.trim()) {
+          addMessage('Please enter your name', 'bot')
+          return
         }
-      }, 1000)
-    }, 300)
-  }
+        const name = userInput.trim()
+        setFormData({ ...formData, firstName: name })
+        addMessage(name, 'user')
+        setUserInput('')
 
-  const handleZipCodeSubmit = () => {
-    if (!userInput.trim()) return
+        setTimeout(() => {
+          addMessage('Thanks! What\'s the best phone number to reach you?', 'bot')
+          setStep('phone')
+        }, 300)
+      } else if (step === 'phone') {
+        const phoneRegex = /(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/
+        const phoneMatch = userInput.trim().match(phoneRegex)
 
-    const zip = userInput.trim()
-    setFormData({ ...formData, zipCode: zip })
-    addMessage(zip, 'user')
-    setUserInput('')
+        if (!phoneMatch) {
+          addMessage(userInput, 'user')
+          setUserInput('')
+          setTimeout(() => {
+            addMessage('Please enter a valid phone number (e.g., (423) 894-3723)', 'bot')
+            setIsLoading(false)
+          }, 300)
+          return
+        }
 
-    setIsLoading(true)
-    setTimeout(() => {
-      setIsLoading(false)
+        const phone = `(${phoneMatch[1]}) ${phoneMatch[2]}-${phoneMatch[3]}`
+        setFormData({ ...formData, phone })
+        addMessage(phone, 'user')
+        setUserInput('')
 
-      // Simple validation: assume service area if zip is provided
-      // In production, validate against actual service area
-      addMessage(
-        '✅ Great news! We serve your area. I can check our schedule for a same-day or next-day appointment.',
-        'bot'
-      )
+        setTimeout(() => {
+          addMessage('Great! What\'s your ZIP code?', 'bot')
+          setStep('zip')
+        }, 300)
+      } else if (step === 'zip') {
+        const zip = userInput.trim()
+        setFormData({ ...formData, zipCode: zip })
+        addMessage(zip, 'user')
+        setUserInput('')
 
-      setTimeout(() => {
-        addMessage(
-          "What's your name and the best phone number to reach you?",
-          'bot'
-        )
-        setStep('lead')
-      }, 800)
-    }, 1000)
-  }
+        setTimeout(() => {
+          addMessage('Perfect! What service do you need help with?', 'bot')
+          setStep('need')
+        }, 300)
+      } else if (step === 'need') {
+        addMessage(userInput.trim(), 'user')
+        setFormData({ ...formData, selectedNeed: userInput.trim() })
+        setUserInput('')
 
-  const handleLeadCapture = () => {
-    // Parse user input for name and phone
-    const input = userInput.trim()
-    const phoneRegex = /(\d{3})[^\d]*(\d{3})[^\d]*(\d{4})/
-    const phoneMatch = input.match(phoneRegex)
+        setTimeout(() => {
+          addMessage('Is this an emergency situation right now?', 'bot')
+          setStep('urgency')
+        }, 300)
+      } else if (step === 'urgency') {
+        addMessage(userInput.trim(), 'user')
+        const isEmergency = userInput.toLowerCase().includes('yes') || userInput.toLowerCase().includes('emergency')
+        setFormData({ ...formData, isEmergency })
+        setUserInput('')
 
-    if (!phoneMatch) {
-      addMessage(input, 'user')
-      setUserInput('')
+        setTimeout(() => {
+          addMessage('Is there anything else we should know about this issue? (Optional)', 'bot')
+          setStep('notes')
+        }, 300)
+      } else if (step === 'notes') {
+        if (userInput.trim()) {
+          setFormData({ ...formData, notes: userInput.trim() })
+          addMessage(userInput.trim(), 'user')
+        } else {
+          addMessage('No additional details', 'user')
+        }
+        setUserInput('')
 
-      setTimeout(() => {
-        addMessage(
-          'I need your phone number too. Please provide your full name and phone number, like: John Smith, (423) 555-1234',
-          'bot'
-        )
-      }, 600)
-      return
-    }
+        // Save lead
+        const leadData = {
+          firstName: formData.firstName,
+          phone: formData.phone,
+          zipCode: formData.zipCode,
+          selectedNeed: formData.selectedNeed,
+          isEmergency: formData.isEmergency,
+          notes: formData.notes,
+          timestamp: new Date().toISOString(),
+          priority: formData.isEmergency ? 'URGENT' : 'NORMAL',
+        }
 
-    // Extract name (everything before the phone number)
-    const namePart = input.split(/[\d\-\(\)]/)[0].trim()
-    if (!namePart || namePart.length < 2) {
-      addMessage(input, 'user')
-      setUserInput('')
+        try {
+          const leads = JSON.parse(localStorage.getItem('chatbot_leads') || '[]')
+          leads.push(leadData)
+          localStorage.setItem('chatbot_leads', JSON.stringify(leads))
+          console.log('Lead saved:', leadData)
+        } catch (e) {
+          console.log('Lead captured from chatbot')
+        }
 
-      setTimeout(() => {
-        addMessage(
-          'Could you provide your full name as well? Format: Name, (Phone)',
-          'bot'
-        )
-      }, 600)
-      return
-    }
+        setTimeout(() => {
+          const urgencyMsg = formData.isEmergency
+            ? '🚨 URGENT - We\'ve flagged this as an emergency. Our team will call you ASAP!'
+            : '✅ Thanks! Our team will call you soon at ' + formData.phone
+          addMessage(urgencyMsg, 'bot')
+          setStep('confirmation')
 
-    // Phone is valid, capture it
-    const phone = `(${phoneMatch[1]}) ${phoneMatch[2]}-${phoneMatch[3]}`
-    setFormData({ ...formData, firstName: namePart, phone: phone })
-
-    addMessage(input, 'user')
-    setUserInput('')
-
-    setIsLoading(true)
-    setTimeout(() => {
-      setIsLoading(false)
-      addMessage(
-        `Perfect, ${namePart}! Our team will call you at ${phone} within 15 minutes during business hours or within 30 minutes of opening if it's after hours.`,
-        'bot'
-      )
-
-      setTimeout(() => {
-        addMessage(
-          'Is there anything specific you\'d like the technician to know about the issue?',
-          'bot'
-        )
-        setStep('confirmation')
-      }, 800)
-    }, 1000)
-  }
-
-  const handleConfirmation = () => {
-    if (userInput.trim()) {
-      addMessage(userInput, 'user')
-      setUserInput('')
-    }
-
-    setIsLoading(true)
-    setTimeout(() => {
-      setIsLoading(false)
-      addMessage(
-        '✅ Thanks! We\'ve got all your info. You\'ll hear from our team shortly. Have a great day!',
-        'bot'
-      )
-
-      // Save lead to localStorage
-      const leadData = {
-        firstName: formData.firstName,
-        phone: formData.phone,
-        email: formData.email,
-        selectedNeed: formData.selectedNeed,
-        zipCode: formData.zipCode,
-        isEmergency: formData.isEmergency,
-        timestamp: new Date().toISOString(),
+          setTimeout(() => {
+            setIsOpen(false)
+            setStep('closed')
+          }, 3000)
+        }, 300)
       }
-
-      try {
-        const leads = JSON.parse(localStorage.getItem('chatbot_leads') || '[]')
-        leads.push(leadData)
-        localStorage.setItem('chatbot_leads', JSON.stringify(leads))
-      } catch (e) {
-        console.log('Lead captured from chatbot')
-      }
-
-      setTimeout(() => {
-        setIsOpen(false)
-        setStep('closed')
-      }, 2000)
-    }, 1000)
+    }, 800)
   }
 
   const handleSendMessage = () => {
-    if (!userInput.trim() || isLoading) return
-
-    if (step === 'zip') {
-      handleZipCodeSubmit()
-    } else if (step === 'lead') {
-      handleLeadCapture()
-    } else if (step === 'confirmation') {
-      handleConfirmation()
-    }
+    if (!userInput.trim() && step !== 'notes') return
+    if (isLoading) return
+    proceedToNextStep()
   }
 
   const handleReopenClick = () => {
@@ -354,33 +286,30 @@ export default function ChatbotWidget() {
         {/* Quick Reply Buttons or Input */}
         <div className="px-4 pb-4 pt-2 bg-gray-50 border-t border-gray-200">
           {step === 'greeting' && (
-            <div className="space-y-2">
-              <button
-                onClick={() => {
-                  setStep('need')
-                  setTimeout(() => {
-                    addMessage('What do you need help with?', 'bot')
-                  }, 300)
-                }}
-                className="w-full px-4 py-3 text-sm bg-blue-600 text-white font-bold rounded hover:bg-blue-700 transition"
-              >
-                Let's Get Started →
-              </button>
-            </div>
+            <button
+              onClick={() => proceedToNextStep()}
+              className="w-full px-4 py-3 text-sm bg-blue-600 text-white font-bold rounded hover:bg-blue-700 transition"
+            >
+              Let's Get Started →
+            </button>
           )}
 
           {step === 'need' && (
             <div className="space-y-2">
               {[
-                { label: 'AC Repair', value: 'ac-repair', emoji: '❄️' },
-                { label: 'Furnace Repair', value: 'furnace-repair', emoji: '🔥' },
-                { label: 'Get a Quote', value: 'quote', emoji: '💰' },
-                { label: 'Maintenance Plan', value: 'maintenance', emoji: '🛡️' },
-                { label: 'Something Else', value: 'other', emoji: '❓' },
+                { label: 'AC Repair', emoji: '❄️' },
+                { label: 'Furnace Repair', emoji: '🔥' },
+                { label: 'Heat Pump', emoji: '🔄' },
+                { label: 'New Installation', emoji: '⚙️' },
+                { label: 'Maintenance', emoji: '🛡️' },
+                { label: 'Other', emoji: '❓' },
               ].map((btn) => (
                 <button
-                  key={btn.value}
-                  onClick={() => handleNeedSelection(`${btn.emoji} ${btn.label}`)}
+                  key={btn.label}
+                  onClick={() => {
+                    setUserInput(`${btn.emoji} ${btn.label}`)
+                    setTimeout(() => proceedToNextStep(), 100)
+                  }}
                   className="w-full px-3 py-2 text-left text-sm bg-white border border-gray-300 rounded hover:bg-blue-50 transition"
                 >
                   {btn.emoji} {btn.label}
@@ -392,13 +321,19 @@ export default function ChatbotWidget() {
           {step === 'urgency' && (
             <div className="space-y-2">
               <button
-                onClick={() => handleUrgencySelection(true)}
+                onClick={() => {
+                  setUserInput('Yes, it\'s an emergency')
+                  setTimeout(() => proceedToNextStep(), 100)
+                }}
                 className="w-full px-3 py-2 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition font-semibold"
               >
                 🚨 Yes, Emergency
               </button>
               <button
-                onClick={() => handleUrgencySelection(false)}
+                onClick={() => {
+                  setUserInput('No, not an emergency')
+                  setTimeout(() => proceedToNextStep(), 100)
+                }}
                 className="w-full px-3 py-2 text-sm bg-white border border-gray-300 rounded hover:bg-gray-50 transition"
               >
                 ✓ No, Not Emergency
@@ -406,7 +341,7 @@ export default function ChatbotWidget() {
             </div>
           )}
 
-          {(step === 'zip' || step === 'lead' || step === 'confirmation') && (
+          {(step === 'name' || step === 'phone' || step === 'zip' || step === 'notes') && (
             <div className="flex gap-2">
               <input
                 type="text"
@@ -414,11 +349,13 @@ export default function ChatbotWidget() {
                 onChange={(e) => setUserInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                 placeholder={
-                  step === 'zip'
-                    ? 'Your ZIP code...'
-                    : step === 'lead'
-                    ? 'Name, Phone...'
-                    : 'Anything else?'
+                  step === 'name'
+                    ? 'Your name...'
+                    : step === 'phone'
+                    ? '(423) 894-3723'
+                    : step === 'zip'
+                    ? '37421'
+                    : 'Type here... (optional)'
                 }
                 className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm focus:ring-2 focus:ring-blue-500 outline-none"
                 autoFocus
@@ -426,7 +363,7 @@ export default function ChatbotWidget() {
               />
               <button
                 onClick={handleSendMessage}
-                disabled={!userInput.trim() || isLoading}
+                disabled={(step !== 'notes' && !userInput.trim()) || isLoading}
                 className="px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-gray-300 transition"
               >
                 <Send size={16} />
