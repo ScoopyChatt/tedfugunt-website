@@ -1,174 +1,75 @@
-import dynamic from 'next/dynamic'
-import { COMPANY_INFO } from '@/lib/siteData'
-
-const Hero = dynamic(() => import('@/components/Hero'), { ssr: false })
-const ServiceCards = dynamic(() => import('@/components/ServiceCards'), { ssr: false })
-const TrustBar = dynamic(() => import('@/components/TrustBar'), { ssr: false })
-const LeadForm = dynamic(() => import('@/components/LeadForm'), { ssr: false })
-const Testimonials = dynamic(() => import('@/components/Testimonials'), { ssr: false })
-const FinancingCTA = dynamic(() => import('@/components/FinancingCTA'), { ssr: false })
-const MaintenanceCTA = dynamic(() => import('@/components/MaintenanceCTA'), { ssr: false })
-const ServiceAreaSection = dynamic(() => import('@/components/ServiceAreaSection'), { ssr: false })
-
 export default function Home() {
   return (
-    <>
-      {/* Hero Section */}
-      <Hero />
-
-      {/* Trust Bar */}
-      <TrustBar />
-
-      {/* Core Services */}
-      <ServiceCards />
-
-      {/* Lead Form */}
-      <LeadForm />
-
-      {/* Why Choose Ted Fugunt */}
-      <section className="py-16 sm:py-20 bg-neutral-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-4">
-              Why Choose Ted Fugunt?
-            </h2>
-            <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
-              When you need HVAC service in Chattanooga, here's what sets us apart
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="space-y-6">
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-lg bg-accent-orange text-white font-bold">
-                  ✓
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-neutral-900 mb-2">
-                    Fast, Reliable Service
-                  </h3>
-                  <p className="text-neutral-600">
-                    We respond quickly to both emergency and routine service requests. Same-day appointments often available.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-lg bg-accent-orange text-white font-bold">
-                  ✓
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-neutral-900 mb-2">
-                    Honest Recommendations
-                  </h3>
-                  <p className="text-neutral-600">
-                    We diagnose problems clearly and recommend solutions that truly fit your needs and budget — never overselling.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-lg bg-accent-orange text-white font-bold">
-                  ✓
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-neutral-900 mb-2">
-                    24/7 Emergency Service
-                  </h3>
-                  <p className="text-neutral-600">
-                    Your comfort doesn't stop at 5pm. We're available anytime for heating and cooling emergencies.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-lg bg-primary-600 text-white font-bold">
-                  ✓
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-neutral-900 mb-2">
-                    Licensed HVAC Professionals
-                  </h3>
-                  <p className="text-neutral-600">
-                    Our technicians are trained, experienced, and certified to handle all brands and types of HVAC equipment.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-lg bg-primary-600 text-white font-bold">
-                  ✓
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-neutral-900 mb-2">
-                    Carrier Dealer
-                  </h3>
-                  <p className="text-neutral-600">
-                    We install and service premium Carrier equipment, backed by manufacturer warranties and our service guarantee.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0 flex items-center justify-center h-10 w-10 rounded-lg bg-primary-600 text-white font-bold">
-                  ✓
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-neutral-900 mb-2">
-                    Transparent Pricing
-                  </h3>
-                  <p className="text-neutral-600">
-                    No hidden fees. You know exactly what you're paying before we start work. Financing available.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="min-h-screen bg-white">
+      <header className="bg-gradient-to-r from-blue-900 to-blue-800 text-white py-8">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h1 className="text-5xl font-bold mb-2">Ted Fugunt Heating & Air</h1>
+          <p className="text-xl">Professional HVAC Service in Chattanooga</p>
         </div>
-      </section>
+      </header>
 
-      {/* Maintenance Plans */}
-      <MaintenanceCTA />
-
-      {/* Financing */}
-      <FinancingCTA />
-
-      {/* Testimonials */}
-      <Testimonials />
-
-      {/* Service Area */}
-      <ServiceAreaSection />
-
-      {/* Final CTA */}
-      <section className="bg-gradient-to-r from-primary-900 to-primary-800 text-white py-16 sm:py-24">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-5xl font-bold mb-6">
-            Ready for Professional HVAC Service?
-          </h2>
-          <p className="text-xl text-neutral-200 mb-8 max-w-2xl mx-auto">
-            Whether you need emergency repair, a new system, or regular maintenance, we're here to help. Contact us today for fast, reliable service.
+      <main className="max-w-4xl mx-auto px-4 py-12">
+        <section className="mb-12">
+          <h2 className="text-3xl font-bold mb-4">24/7 Emergency HVAC Service</h2>
+          <p className="text-gray-700 mb-4">
+            When your heating or cooling system fails, you need fast, reliable help. Call us anytime for emergency repair service.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => {
-                const form = document.getElementById('lead-form')
-                if (form) form.scrollIntoView({ behavior: 'smooth' })
-              }}
-              className="bg-accent-orange hover:bg-accent-red text-white font-bold py-4 px-8 rounded-lg transition text-lg"
-            >
-              Schedule Service Now
-            </button>
-            <a
-              href={`tel:${COMPANY_INFO.phone.replace(/\D/g, '')}`}
-              className="border-2 border-white hover:bg-white hover:text-primary-700 text-white font-bold py-4 px-8 rounded-lg transition text-lg"
-            >
-              📞 Call Now
-            </a>
+          <a href="tel:4238943723" className="inline-block bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg">
+            📞 Call Now: (423) 894-3723
+          </a>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-3xl font-bold mb-6">Our Services</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="border rounded-lg p-6">
+              <h3 className="text-xl font-bold mb-2">AC Repair</h3>
+              <p className="text-gray-700">Fast air conditioning repair service when you need it most.</p>
+            </div>
+            <div className="border rounded-lg p-6">
+              <h3 className="text-xl font-bold mb-2">Heating Repair</h3>
+              <p className="text-gray-700">Emergency heat repair to keep your home warm.</p>
+            </div>
+            <div className="border rounded-lg p-6">
+              <h3 className="text-xl font-bold mb-2">System Installation</h3>
+              <p className="text-gray-700">Professional HVAC installation with financing available.</p>
+            </div>
+            <div className="border rounded-lg p-6">
+              <h3 className="text-xl font-bold mb-2">Maintenance Plans</h3>
+              <p className="text-gray-700">Regular tune-ups to keep your system running smoothly.</p>
+            </div>
           </div>
+        </section>
+
+        <section className="bg-gray-50 p-8 rounded-lg">
+          <h2 className="text-3xl font-bold mb-6">Get HVAC Help Today</h2>
+          <form className="space-y-4">
+            <div>
+              <label className="block text-sm font-bold mb-2">Name</label>
+              <input type="text" placeholder="Your name" className="w-full border rounded px-4 py-2" />
+            </div>
+            <div>
+              <label className="block text-sm font-bold mb-2">Phone</label>
+              <input type="tel" placeholder="(423) 555-1234" className="w-full border rounded px-4 py-2" />
+            </div>
+            <div>
+              <label className="block text-sm font-bold mb-2">Email</label>
+              <input type="email" placeholder="your@email.com" className="w-full border rounded px-4 py-2" />
+            </div>
+            <button type="submit" className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg">
+              Get HVAC Help
+            </button>
+          </form>
+        </section>
+      </main>
+
+      <footer className="bg-gray-900 text-white py-8 mt-12">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <p className="mb-2">Ted Fugunt Heating & Air</p>
+          <p className="text-gray-400">1105 Mackey Ave, Chattanooga, TN 37421</p>
+          <p className="text-gray-400">24/7 Emergency Service: (423) 894-3723</p>
         </div>
-      </section>
-    </>
+      </footer>
+    </div>
   )
 }
