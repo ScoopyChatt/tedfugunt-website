@@ -7,8 +7,6 @@ import { COMPANY_INFO, CORE_SERVICES, TESTIMONIALS } from '@/lib/siteData'
 
 const ChatbotWidget = dynamic(() => import('@/components/ChatbotWidget'), { ssr: false })
 
-export const dynamic = 'force-dynamic'
-
 export default function Home() {
   const [formStep, setFormStep] = useState(0)
   const [formData, setFormData] = useState({ name: '', phone: '', email: '', issue: '' })
