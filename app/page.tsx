@@ -1,5 +1,7 @@
+import dynamic from 'next/dynamic'
 import { Star, Phone, Clock, Shield, Zap, CheckCircle, DollarSign } from 'lucide-react'
-import ChatbotWidget from '@/components/ChatbotWidget'
+
+const ChatbotWidget = dynamic(() => import('@/components/ChatbotWidget'), { ssr: false })
 
 export const metadata = {
   title: 'Ted Fugunt Heating & Air | HVAC Repair & Installation in Chattanooga, TN',
