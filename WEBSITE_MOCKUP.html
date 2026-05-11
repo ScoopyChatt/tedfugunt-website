@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ted Fugunt Heating & Air - Modern Website Mockup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, #003d99 0%, #0052cc 100%);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .phone-btn {
+            background: #ff6b35;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .phone-btn:hover {
+            background: #e55a2b;
+        }
+
+        /* Emergency Banner */
+        .emergency-banner {
+            background: linear-gradient(135deg, #ff6b35 0%, #ff5722 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .emergency-banner::before {
+            content: "🚨";
+            font-size: 1.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #003d99 0%, #0052cc 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: #ff6b35;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #0052cc;
+            padding: 1rem 2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-secondary:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        /* Service Areas */
+        .service-areas {
+            background: #f8f9fa;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .service-areas h3 {
+            margin-bottom: 1rem;
+            color: #0052cc;
+        }
+
+        .areas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .area-badge {
+            background: white;
+            padding: 0.75rem;
+            border-radius: 4px;
+            border: 2px solid #0052cc;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .section {
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #003d99;
+            text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border-top: 4px solid #0052cc;
+        }
+
+        .feature-card:hover {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+        }
+
+        .feature-card h3 {
+            color: #0052cc;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            background: #f8f9fa;
+            padding: 3rem 2rem;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .review-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .stars {
+            color: #ffc107;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-text {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Chat Widget */
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 350px;
+            max-height: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #0052cc 0%, #003d99 100%);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h4 {
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .chat-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .chat-message {
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .chat-message.bot {
+            background: #f0f0f0;
+            color: #333;
+            align-self: flex-start;
+            max-width: 80%;
+        }
+
+        .chat-message.user {
+            background: #0052cc;
+            color: white;
+            align-self: flex-end;
+            max-width: 80%;
+        }
+
+        .chat-input {
+            padding: 1rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input input {
+            flex: 1;
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .chat-input button {
+            background: #0052cc;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Financing Banner */
+        .financing-section {
+            background: linear-gradient(135deg, #003d99 0%, #0052cc 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .financing-section h3 {
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .financing-section p {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a {
+            color: #0052cc;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .header-right {
+                gap: 1rem;
+            }
+
+            .chat-widget {
+                width: 90%;
+                right: 5%;
+                left: 5%;
+                bottom: 10px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+        }
+
+        /* Chat button fallback */
+        .chat-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #0052cc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 999;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">Ted Fugunt HVAC</div>
+        <div class="header-right">
+            <a href="tel:4238943723" class="phone-btn">📞 (423) 894-3723</a>
+        </div>
+    </header>
+
+    <!-- Emergency Banner -->
+    <div class="emergency-banner">
+        AC Not Working? Chat with us NOW or call for emergency service
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Professional HVAC Service That's Always Available</h1>
+        <p>Emergency repairs, installations, maintenance & more — in Chattanooga and surrounding areas</p>
+        <div class="service-areas">
+            <h3>We Serve These Areas:</h3>
+            <div class="areas-grid">
+                <div class="area-badge">Chattanooga</div>
+                <div class="area-badge">Hixson</div>
+                <div class="area-badge">Signal Mountain</div>
+                <div class="area-badge">Red Bank</div>
+                <div class="area-badge">Lookout Mountain</div>
+                <div class="area-badge">Soddy-Daisy</div>
+            </div>
+        </div>
+        <div class="cta-buttons">
+            <button class="btn-primary" onclick="openChat()">💬 Chat With Us Now</button>
+            <button class="btn-secondary" onclick="alert('Request Service')">Request Service</button>
+        </div>
+    </section>
+
+    <!-- Our Services -->
+    <section class="section">
+        <h2>Our Services</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>🚨 Emergency Repair</h3>
+                <p>24/7 emergency service available. Your AC goes down, we show up. Fast, reliable, professional.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🆕 New Installation</h3>
+                <p>Upgrade to a modern, efficient system. Financing available. We handle it all.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔧 Maintenance Plans</h3>
+                <p>Keep your system running smoothly year-round with our service agreements. Save money on your energy bill.</p>
+            </div>
+            <div class="feature-card">
+                <h3>♻️ System Replacement</h3>
+                <p>Old system? We'll guide you through replacement options and get you the best value.</p>
+            </div>
+            <div class="feature-card">
+                <h3>💨 Air Quality</h3>
+                <p>Indoor air quality specialists. UV lights, duct cleaning, air duct sealing.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🏢 Commercial HVAC</h3>
+                <p>Full commercial HVAC services including design, installation, and maintenance.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Financing -->
+    <div class="financing-section">
+        <h3>Financing Available</h3>
+        <p>System replacement doesn't have to be expensive. We offer flexible financing with approved credit.</p>
+        <button class="btn-secondary" onclick="alert('Learn More About Financing')">See Financing Options</button>
+    </div>
+
+    <!-- Reviews -->
+    <section class="reviews-section">
+        <div class="section">
+            <h2>What Our Customers Say</h2>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"Great service and value. I had to replace my HVAC system and they had the best value for the dollar. The installation was outstanding. You will not be disappointed."</p>
+                    <div class="reviewer-name">— Robert M.</div>
+                </div>
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"Reliable, fast service & extremely friendly. They know their stuff and really care about getting the job done right."</p>
+                    <div class="reviewer-name">— Jenny P.</div>
+                </div>
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"Had an emergency service call at night. They answered, came out quickly, and fixed the problem. Professional and honest."</p>
+                    <div class="reviewer-name">— Michael T.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <div class="chat-header">
+            <h4>Ted Fugunt HVAC Support</h4>
+            <button class="chat-close" onclick="closeChat()">✕</button>
+        </div>
+        <div class="chat-content" id="chatContent">
+            <div class="chat-message bot">Hi! 👋 Need help with your HVAC system? I'm here 24/7 to assist.</div>
+            <div class="chat-message bot">What brings you in today?</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Type your message..." id="chatInput" onkeypress="handleChatInput(event)">
+            <button onclick="sendChatMessage()">Send</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>Ted Fugunt Heating & Air Conditioning</strong></p>
+        <p>1105 Mackey Ave, Chattanooga, TN 37421</p>
+        <p>📞 (423) 894-3723 | 🕐 Mon-Fri 8am-4pm | 24/7 Emergency Service</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <span>•</span>
+            <a href="#">Contact Us</a>
+            <span>•</span>
+            <a href="#">About Us</a>
+            <span>•</span>
+            <a href="#">Service Areas</a>
+            <span>•</span>
+            <a href="#">Special Offers</a>
+        </div>
+        <p style="margin-top: 1.5rem; font-size: 0.9rem; opacity: 0.8;">Carrier Dealer • BBB A+ Rated • Licensed & Insured</p>
+    </footer>
+
+    <script>
+        function openChat() {
+            document.getElementById('chatWidget').classList.remove('hidden');
+            document.getElementById('chatInput').focus();
+        }
+
+        function closeChat() {
+            document.getElementById('chatWidget').classList.add('hidden');
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+
+            if (message) {
+                // Add user message
+                const chatContent = document.getElementById('chatContent');
+                const userMsg = document.createElement('div');
+                userMsg.className = 'chat-message user';
+                userMsg.textContent = message;
+                chatContent.appendChild(userMsg);
+
+                input.value = '';
+                chatContent.scrollTop = chatContent.scrollHeight;
+
+                // Simulate bot response
+                setTimeout(() => {
+                    const botMsg = document.createElement('div');
+                    botMsg.className = 'chat-message bot';
+
+                    if (message.toLowerCase().includes('emergency') || message.toLowerCase().includes('ac')) {
+                        botMsg.textContent = "Got it! Emergency AC service is available 24/7. Can I get your zip code and a quick description of the issue?";
+                    } else if (message.toLowerCase().includes('cost') || message.toLowerCase().includes('price')) {
+                        botMsg.textContent = "Service call: Usually $99-149. Costs vary based on the repair. Want to schedule a time for an estimate?";
+                    } else if (message.toLowerCase().includes('schedule') || message.toLowerCase().includes('appointment')) {
+                        botMsg.textContent = "Perfect! I can book you right now. What type of service do you need? And when works best for you?";
+                    } else {
+                        botMsg.textContent = "Thanks for letting me know! To better assist you, could you tell me what service you're interested in?";
+                    }
+
+                    chatContent.appendChild(botMsg);
+                    chatContent.scrollTop = chatContent.scrollHeight;
+                }, 500);
+            }
+        }
+
+        function handleChatInput(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+
+        // Open chat on page load to demo
+        window.addEventListener('load', () => {
+            // Uncomment line below to auto-open chat on load
+            // openChat();
+        });
+    </script>
+</body>
+</html>
