@@ -198,11 +198,11 @@ export default function ChatbotWidget() {
     setStep('greeting')
     setFormData({
       selectedNeed: '',
-      isEmergency: '',
+      isEmergency: false,
       zipCode: '',
       firstName: '',
       phone: '',
-      email: '',
+      notes: '',
     })
     setMessages([
       {
