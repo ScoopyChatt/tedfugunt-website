@@ -1,10 +1,12 @@
 import type { Metadata } from 'next'
+import dynamic from 'next/dynamic'
 import { COMPANY_INFO } from '@/lib/siteData'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import StickyMobileCTA from '@/components/StickyMobileCTA'
-import ChatbotWidget from '@/components/ChatbotWidget'
 import './globals.css'
+
+const Header = dynamic(() => import('@/components/Header'), { ssr: false })
+const Footer = dynamic(() => import('@/components/Footer'), { ssr: false })
+const StickyMobileCTA = dynamic(() => import('@/components/StickyMobileCTA'), { ssr: false })
+const ChatbotWidget = dynamic(() => import('@/components/ChatbotWidget'), { ssr: false })
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://tedfugunt-website.vercel.app'),
