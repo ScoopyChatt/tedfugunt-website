@@ -1,14 +1,14 @@
-import Hero from '@/components/Hero'
-import ServiceCards from '@/components/ServiceCards'
-import TrustBar from '@/components/TrustBar'
-import LeadForm from '@/components/LeadForm'
-import Testimonials from '@/components/Testimonials'
-import FinancingCTA from '@/components/FinancingCTA'
-import MaintenanceCTA from '@/components/MaintenanceCTA'
-import ServiceAreaSection from '@/components/ServiceAreaSection'
+import dynamic from 'next/dynamic'
 import { COMPANY_INFO } from '@/lib/siteData'
 
-export const dynamic = 'force-dynamic'
+const Hero = dynamic(() => import('@/components/Hero'), { ssr: false })
+const ServiceCards = dynamic(() => import('@/components/ServiceCards'), { ssr: false })
+const TrustBar = dynamic(() => import('@/components/TrustBar'), { ssr: false })
+const LeadForm = dynamic(() => import('@/components/LeadForm'), { ssr: false })
+const Testimonials = dynamic(() => import('@/components/Testimonials'), { ssr: false })
+const FinancingCTA = dynamic(() => import('@/components/FinancingCTA'), { ssr: false })
+const MaintenanceCTA = dynamic(() => import('@/components/MaintenanceCTA'), { ssr: false })
+const ServiceAreaSection = dynamic(() => import('@/components/ServiceAreaSection'), { ssr: false })
 
 export default function Home() {
   return (
