@@ -1,12 +1,6 @@
 import type { Metadata } from 'next'
-import dynamic from 'next/dynamic'
 import { COMPANY_INFO } from '@/lib/siteData'
 import './globals.css'
-
-const Header = dynamic(() => import('@/components/Header'), { ssr: false })
-const Footer = dynamic(() => import('@/components/Footer'), { ssr: false })
-const StickyMobileCTA = dynamic(() => import('@/components/StickyMobileCTA'), { ssr: false })
-const ChatbotWidget = dynamic(() => import('@/components/ChatbotWidget'), { ssr: false })
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://tedfugunt-website.vercel.app'),
@@ -56,13 +50,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body className="bg-white text-neutral-900">
-        <Header />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
-        <StickyMobileCTA />
-        <ChatbotWidget />
+        {children}
       </body>
     </html>
   )
