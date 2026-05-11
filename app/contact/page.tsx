@@ -2,6 +2,8 @@ import { COMPANY_INFO } from '@/lib/siteData'
 import LeadForm from '@/components/LeadForm'
 import { Phone, MapPin, Clock, Mail } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: 'Contact Ted Fugunt Heating & Air | HVAC Service',
   description: 'Contact us for HVAC repair, installation, and maintenance. Available 24/7 for emergencies.',

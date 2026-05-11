@@ -2,6 +2,8 @@
 
 import { COMPANY_INFO, CORE_SERVICES, TRUST_SIGNALS, FAQ, TESTIMONIALS } from '@/lib/siteData'
 
+export const dynamic = 'force-dynamic'
+
 export default function Home() {
   return (
     <>

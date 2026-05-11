@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { CORE_SERVICES } from '@/lib/siteData'
 import { ArrowRight } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: 'HVAC Services | Ted Fugunt Heating & Air',
   description: 'Complete HVAC services including emergency repair, installation, replacement, maintenance, and indoor air quality solutions.',

@@ -2,11 +2,7 @@ import { notFound } from 'next/navigation'
 import { CORE_SERVICES, COMPANY_INFO } from '@/lib/siteData'
 import { Check, Phone } from 'lucide-react'
 
-export const generateStaticParams = () => {
-  return CORE_SERVICES.map((service) => ({
-    slug: service.id,
-  }))
-}
+export const dynamic = 'force-dynamic'
 
 export const generateMetadata = ({ params }: { params: { slug: string } }) => {
   const service = CORE_SERVICES.find((s) => s.id === params.slug)

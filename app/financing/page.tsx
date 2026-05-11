@@ -1,5 +1,7 @@
 import { CreditCard, DollarSign, TrendingDown } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: 'Flexible HVAC Financing | Ted Fugunt Heating & Air',
   description: 'Make your HVAC system replacement affordable with our flexible financing options. Approved credit available.',

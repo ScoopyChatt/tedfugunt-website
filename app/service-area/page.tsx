@@ -1,6 +1,8 @@
 import { SERVICE_AREAS } from '@/lib/siteData'
 import { MapPin, Check } from 'lucide-react'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = {
   title: 'Service Area | Ted Fugunt Heating & Air',
   description: 'We proudly serve Chattanooga, TN and surrounding communities. Find out if we service your area.',
