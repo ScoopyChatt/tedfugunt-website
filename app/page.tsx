@@ -8,6 +8,8 @@ import MaintenanceCTA from '@/components/MaintenanceCTA'
 import ServiceAreaSection from '@/components/ServiceAreaSection'
 import { COMPANY_INFO } from '@/lib/siteData'
 
+export const dynamic = 'force-dynamic'
+
 export default function Home() {
   return (
     <>
