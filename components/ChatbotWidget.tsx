@@ -1,290 +1,202 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
-import { ChatMessage, ChatSession, LeadData, ServiceType, UrgencyLevel } from '@/lib/leadTypes'
-import { generateId } from '@/lib/utils'
-import { X, Send, MessageCircle } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { X, MessageCircle } from 'lucide-react'
 
 export default function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false)
-  const [messages, setMessages] = useState<ChatMessage[]>([])
-  const [sessionData, setSessionData] = useState<Partial<LeadData>>({})
-  const [currentStep, setCurrentStep] = useState<'initial' | 'service' | 'urgency' | 'name' | 'phone' | 'email' | 'address' | 'complete'>('initial')
-  const [inputValue, setInputValue] = useState('')
-  const messagesEndRef = useRef<HTMLDivElement>(null)
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
+  const [hasInteracted, setHasInteracted] = useState(false)
+  const [step, setStep] = useState(0)
+  const [formData, setFormData] = useState({ name: '', phone: '', issue: '' })
+  const [autoCloseTimer, setAutoCloseTimer] = useState<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
-    scrollToBottom()
-  }, [messages])
+    setIsOpen(true)
+    const timer = setTimeout(() => {
+      if (!hasInteracted) {
+        setIsOpen(false)
+      }
+    }, 15000)
+    setAutoCloseTimer(timer)
+    return () => {
+      if (timer) clearTimeout(timer)
+    }
+  }, [hasInteracted])
 
-  const addMessage = (role: 'bot' | 'user', content: string) => {
-    const message: ChatMessage = {
-      id: generateId(),
-      role,
-      content,
+  const handleInteraction = () => {
+    setHasInteracted(true)
+    if (autoCloseTimer) {
+      clearTimeout(autoCloseTimer)
+      setAutoCloseTimer(null)
+    }
+  }
+
+  const handleNext = () => {
+    if (step === 0) {
+      setStep(1)
+      handleInteraction()
+    } else if (step === 1 && formData.name.trim()) {
+      setStep(2)
+      handleInteraction()
+    } else if (step === 2 && formData.phone.trim()) {
+      setStep(3)
+      handleInteraction()
+    } else if (step === 3 && formData.issue.trim()) {
+      handleSubmit()
+    }
+  }
+
+  const handleSubmit = async () => {
+    const leadData = {
+      name: formData.name,
+      phone: formData.phone,
+      issue: formData.issue,
+      source: 'chatbot',
       timestamp: new Date().toISOString(),
     }
-    setMessages((prev) => [...prev, message])
-  }
 
-  const handleInitialOpen = () => {
-    if (messages.length === 0) {
-      addMessage(
-        'bot',
-        "Hi! 👋 I'm Ted Fugunt Heating & Air's virtual assistant. I can help you schedule service, request an estimate, or get answers about HVAC issues. What can we help with today?"
-      )
-      setCurrentStep('initial')
+    try {
+      const leads = JSON.parse(localStorage.getItem('leads') || '[]')
+      leads.push(leadData)
+      localStorage.setItem('leads', JSON.stringify(leads))
+    } catch (e) {
+      console.log('Lead captured from chatbot')
     }
-    setIsOpen(true)
-  }
 
-  const handleUserMessage = (content: string) => {
-    addMessage('user', content)
-
-    // Simulate bot response with slight delay
+    setStep(4)
     setTimeout(() => {
-      handleBotResponse(content)
-    }, 500)
+      setIsOpen(false)
+      setFormData({ name: '', phone: '', issue: '' })
+      setStep(0)
+      setHasInteracted(false)
+    }, 3000)
   }
 
-  const handleBotResponse = (userInput: string) => {
-    const input = userInput.toLowerCase().trim()
-
-    switch (currentStep) {
-      case 'initial':
-        // Route to service selection
-        addMessage('bot', 'What issue are you experiencing?')
-        addMessage('bot', '1. AC not cooling\n2. Heat not working\n3. System making noise\n4. Need replacement estimate\n5. Maintenance tune-up\n6. Indoor air quality\n7. Other')
-        setCurrentStep('service')
-        break
-
-      case 'service':
-        const serviceMap: Record<string, ServiceType> = {
-          '1': 'ac-repair',
-          'ac': 'ac-repair',
-          'cooling': 'ac-repair',
-          '2': 'heating-repair',
-          'heat': 'heating-repair',
-          'warm': 'heating-repair',
-          '3': 'system-making-noise',
-          'noise': 'system-making-noise',
-          '4': 'replacement-estimate',
-          'replacement': 'replacement-estimate',
-          'replace': 'replacement-estimate',
-          '5': 'maintenance-tune-up',
-          'maintenance': 'maintenance-tune-up',
-          'tune-up': 'maintenance-tune-up',
-          '6': 'indoor-air-quality',
-          'air quality': 'indoor-air-quality',
-          '7': 'other',
-          'other': 'other',
-        }
-
-        let service = 'other'
-        for (const [key, val] of Object.entries(serviceMap)) {
-          if (input.includes(key)) {
-            service = val
-            break
-          }
-        }
-
-        setSessionData((prev) => ({
-          ...prev,
-          serviceNeeded: service as ServiceType,
-        }))
-
-        addMessage('bot', `Got it! You need ${service.replace('-', ' ')} service.`)
-        addMessage('bot', 'How soon do you need this?\n1. Emergency / ASAP\n2. This week\n3. Planning ahead')
-        setCurrentStep('urgency')
-        break
-
-      case 'urgency':
-        const urgencyMap: Record<string, UrgencyLevel> = {
-          '1': 'emergency',
-          'emergency': 'emergency',
-          'asap': 'emergency',
-          'now': 'emergency',
-          '2': 'this-week',
-          'week': 'this-week',
-          'soon': 'this-week',
-          '3': 'planning-ahead',
-          'planning': 'planning-ahead',
-          'future': 'planning-ahead',
-        }
-
-        let urgency = 'this-week'
-        for (const [key, val] of Object.entries(urgencyMap)) {
-          if (input.includes(key)) {
-            urgency = val
-            break
-          }
-        }
-
-        setSessionData((prev) => ({
-          ...prev,
-          urgency: urgency as UrgencyLevel,
-        }))
-
-        addMessage('bot', `Perfect! I'll make sure we prioritize this. Now, what's your name?`)
-        setCurrentStep('name')
-        break
-
-      case 'name':
-        setSessionData((prev) => ({
-          ...prev,
-          name: userInput,
-        }))
-        addMessage('bot', `Nice to meet you, ${userInput}! What's the best phone number to reach you?`)
-        setCurrentStep('phone')
-        break
-
-      case 'phone':
-        setSessionData((prev) => ({
-          ...prev,
-          phone: userInput,
-        }))
-        addMessage('bot', `Got it! And what's your email address?`)
-        setCurrentStep('email')
-        break
-
-      case 'email':
-        setSessionData((prev) => ({
-          ...prev,
-          email: userInput,
-        }))
-        addMessage('bot', `Great! What's your address or ZIP code in the Chattanooga area?`)
-        setCurrentStep('address')
-        break
-
-      case 'address':
-        const leadData: LeadData = {
-          name: sessionData.name || '',
-          phone: sessionData.phone || '',
-          email: sessionData.email || '',
-          addressOrZip: userInput,
-          serviceNeeded: (sessionData.serviceNeeded as ServiceType) || 'other',
-          urgency: (sessionData.urgency as UrgencyLevel) || 'this-week',
-          preferredContact: 'call',
-          source: 'website_chatbot',
-          createdAt: new Date().toISOString(),
-        }
-
-        // Save lead to localStorage
-        try {
-          const existingLeads = JSON.parse(localStorage.getItem('leads') || '[]')
-          existingLeads.push(leadData)
-          localStorage.setItem('leads', JSON.stringify(existingLeads))
-          console.log('Chat lead captured:', leadData)
-        } catch (err) {
-          console.error('Error saving lead:', err)
-        }
-
-        setSessionData((prev) => ({
-          ...prev,
-          addressOrZip: userInput,
-        }))
-
-        addMessage(
-          'bot',
-          `Perfect, ${sessionData.name}! We have all the information we need. Our team will contact you at ${sessionData.phone} shortly to confirm your appointment. If this is an emergency, you can call us immediately at (423) 894-3723. Thank you! 🙏`
-        )
-        setCurrentStep('complete')
-        break
-    }
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (inputValue.trim()) {
-      handleUserMessage(inputValue)
-      setInputValue('')
-    }
+  if (!isOpen) {
+    return null
   }
 
   return (
-    <>
-      {/* Chat Button */}
-      {!isOpen && (
-        <button
-          onClick={handleInitialOpen}
-          className="fixed bottom-24 md:bottom-8 right-6 md:right-8 w-14 h-14 bg-gradient-to-br from-primary-600 to-primary-700 text-white rounded-full shadow-card hover:shadow-card-hover hover:scale-110 transition transform flex items-center justify-center z-40 animate-pulse-subtle"
-          aria-label="Open chat assistant"
-        >
-          <MessageCircle size={24} />
-        </button>
-      )}
-
-      {/* Chat Widget */}
-      {isOpen && (
-        <div className="fixed bottom-24 md:bottom-8 right-6 md:right-8 w-96 max-w-[90vw] h-[500px] md:h-[600px] bg-white rounded-xl shadow-card-hover flex flex-col z-50 animate-slide-up">
-          {/* Header */}
-          <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-4 py-4 rounded-t-xl flex justify-between items-center">
-            <div>
-              <h3 className="font-bold">Ted Fugunt HVAC</h3>
-              <p className="text-xs opacity-90">Virtual Assistant</p>
-            </div>
-            <button
-              onClick={() => {
-                setIsOpen(false)
-                setMessages([])
-                setCurrentStep('initial')
-                setSessionData({})
-              }}
-              className="hover:bg-white/20 p-1 rounded-lg transition"
-              aria-label="Close chat"
-            >
-              <X size={20} />
-            </button>
+    <div className="fixed bottom-4 right-4 z-40 sm:bottom-6 sm:right-6">
+      <div className="bg-white rounded-lg shadow-2xl border border-gray-200 w-96 max-w-[calc(100vw-32px)] flex flex-col h-auto max-h-[600px]">
+        <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-4 flex justify-between items-center rounded-t-lg">
+          <div className="flex items-center gap-2">
+            <MessageCircle size={20} />
+            <span className="font-bold">Quick Service</span>
           </div>
-
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
-            {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-xs px-4 py-3 rounded-lg whitespace-pre-wrap text-sm ${
-                    msg.role === 'user'
-                      ? 'bg-primary-600 text-white rounded-br-none'
-                      : 'bg-neutral-100 text-neutral-900 rounded-bl-none'
-                  }`}
-                >
-                  {msg.content}
-                </div>
-              </div>
-            ))}
-            <div ref={messagesEndRef} />
-          </div>
-
-          {/* Input */}
-          <form
-            onSubmit={handleSubmit}
-            className="border-t border-neutral-200 p-4 flex gap-2"
+          <button
+            onClick={() => {
+              setIsOpen(false)
+              handleInteraction()
+            }}
+            className="hover:bg-blue-800 p-1 rounded transition"
           >
-            <input
-              type="text"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Type your message..."
-              className="flex-1 px-3 py-2 border border-neutral-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none text-sm"
-            />
-            <button
-              type="submit"
-              disabled={!inputValue.trim()}
-              className="bg-primary-600 hover:bg-primary-700 text-white p-2 rounded-lg transition disabled:opacity-50"
-              aria-label="Send message"
-            >
-              <Send size={18} />
-            </button>
-          </form>
+            <X size={20} />
+          </button>
         </div>
-      )}
-    </>
+
+        <div className="p-6 space-y-4">
+          {step === 0 && (
+            <div className="space-y-4">
+              <p className="text-gray-800 font-semibold">Hi! 👋</p>
+              <p className="text-gray-700 text-sm leading-relaxed">
+                We're here to help! Tell us about your HVAC issue and we'll get you connected with our team right away. Most inquiries are responded to within 1 hour.
+              </p>
+              <p className="text-xs text-blue-600 font-semibold">24/7 Emergency Service Available</p>
+            </div>
+          )}
+
+          {step === 1 && (
+            <div className="space-y-3">
+              <p className="text-gray-800 font-semibold">What's your name?</p>
+              <input
+                type="text"
+                placeholder="John Doe"
+                value={formData.name}
+                onChange={(e) => {
+                  setFormData({ ...formData, name: e.target.value })
+                  handleInteraction()
+                }}
+                onKeyPress={(e) => e.key === 'Enter' && handleNext()}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                autoFocus
+              />
+            </div>
+          )}
+
+          {step === 2 && (
+            <div className="space-y-3">
+              <p className="text-gray-800 font-semibold">Your phone number?</p>
+              <input
+                type="tel"
+                placeholder="(423) 555-1234"
+                value={formData.phone}
+                onChange={(e) => {
+                  setFormData({ ...formData, phone: e.target.value })
+                  handleInteraction()
+                }}
+                onKeyPress={(e) => e.key === 'Enter' && handleNext()}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                autoFocus
+              />
+            </div>
+          )}
+
+          {step === 3 && (
+            <div className="space-y-3">
+              <p className="text-gray-800 font-semibold">What's the issue?</p>
+              <select
+                value={formData.issue}
+                onChange={(e) => {
+                  setFormData({ ...formData, issue: e.target.value })
+                  handleInteraction()
+                }}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                autoFocus
+              >
+                <option value="">Select an issue...</option>
+                <option value="emergency">🚨 Emergency - System Down</option>
+                <option value="ac-not-cooling">❄️ AC Not Cooling</option>
+                <option value="heat-not-working">🔥 Heat Not Working</option>
+                <option value="replacement">🔄 Need New System</option>
+                <option value="maintenance">✓ Maintenance</option>
+                <option value="other">💬 Other</option>
+              </select>
+            </div>
+          )}
+
+          {step === 4 && (
+            <div className="text-center space-y-3">
+              <p className="text-2xl">✅</p>
+              <p className="text-gray-800 font-semibold">Thanks {formData.name}!</p>
+              <p className="text-gray-700 text-sm">We've got your info. Our team will call you within 1 hour to help!</p>
+              <p className="text-xs text-blue-600">📞 {formData.phone}</p>
+            </div>
+          )}
+        </div>
+
+        {step < 4 && (
+          <div className="px-6 pb-6">
+            <button
+              onClick={handleNext}
+              disabled={
+                (step === 1 && !formData.name.trim()) ||
+                (step === 2 && !formData.phone.trim()) ||
+                (step === 3 && !formData.issue.trim())
+              }
+              className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white font-bold py-3 rounded-lg transition text-sm"
+            >
+              {step === 0 ? "Let's Go →" : step === 3 ? '✓ Send My Info' : 'Next →'}
+            </button>
+          </div>
+        )}
+
+        {step === 0 && !hasInteracted && (
+          <div className="px-6 pb-3 text-xs text-gray-500 text-center">
+            Closes automatically in 15 seconds...
+          </div>
+        )}
+      </div>
+    </div>
   )
 }
