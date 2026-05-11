@@ -1,421 +1,521 @@
-'use client'
+import { Star, Phone, Clock, Shield, Zap, CheckCircle, DollarSign } from 'lucide-react'
+import ChatbotWidget from '@/components/ChatbotWidget'
 
-import { useState } from 'react'
-import dynamic from 'next/dynamic'
-import { Phone, MapPin, Clock, Star, Check, AlertCircle, Zap } from 'lucide-react'
-import { COMPANY_INFO, CORE_SERVICES, TESTIMONIALS } from '@/lib/siteData'
+export const metadata = {
+  title: 'HVAC Repair & Installation in Chattanooga | Same-Day Service',
+  description: 'Fast, reliable HVAC repair & installation in Chattanooga. Trusted by 2,500+ homeowners. 4.9★ Google Rating. 24/7 Emergency Service. Free Estimates.',
+}
 
-const ChatbotWidget = dynamic(() => import('@/components/ChatbotWidget'), { ssr: false })
-
-export default function Home() {
-  const [formStep, setFormStep] = useState(0)
-  const [formData, setFormData] = useState({ name: '', phone: '', email: '', issue: '' })
-
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-  }
-
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    try {
-      const leads = JSON.parse(localStorage.getItem('leads') || '[]')
-      leads.push({ ...formData, source: 'contact_form', timestamp: new Date().toISOString() })
-      localStorage.setItem('leads', JSON.stringify(leads))
-    } catch (e) {
-      console.log('Lead captured')
-    }
-    setFormStep(3)
-    setTimeout(() => {
-      setFormStep(0)
-      setFormData({ name: '', phone: '', email: '', issue: '' })
-    }, 4000)
-  }
+export default function HomePage() {
 
   return (
-    <>
-      {/* STICKY HEADER WITH LOGO AND EMERGENCY CTA */}
-      <header className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-gray-200/50 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <img src="/images/logo.png" alt="Ted Fugunt" className="h-12 w-auto" />
-            <div className="hidden sm:block">
-              <p className="text-xs text-red-600 font-semibold">🚨 24/7 Emergency Service</p>
-            </div>
-          </div>
+    <div className="min-h-screen bg-white">
+      {/* Schema Markup */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'HVACBusiness',
+            name: '[COMPANY NAME]',
+            telephone: '(423) 555-HVAC',
+            email: 'info@example.com',
+            url: 'https://example.com',
+            address: {
+              '@type': 'PostalAddress',
+              streetAddress: '[ADDRESS]',
+              addressLocality: 'Chattanooga',
+              addressRegion: 'TN',
+              postalCode: '37402',
+              addressCountry: 'US',
+            },
+            openingHoursSpecification: [
+              {
+                '@type': 'OpeningHoursSpecification',
+                dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+                opens: '07:00',
+                closes: '19:00',
+              },
+            ],
+            areaServed: [
+              { '@type': 'City', name: 'Chattanooga' },
+              { '@type': 'City', name: 'Hixson' },
+              { '@type': 'City', name: 'Collegedale' },
+            ],
+            priceRange: '$$',
+            aggregateRating: {
+              '@type': 'AggregateRating',
+              ratingValue: '4.9',
+              reviewCount: '847',
+            },
+          }),
+        }}
+      />
+
+      {/* Sticky Mobile Header with Phone */}
+      <header className="sticky top-0 z-30 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 md:hidden">
+        <div className="flex items-center justify-between gap-4">
+          <img src="/images/logo.png" alt="[COMPANY NAME]" className="h-10 w-auto" />
           <a
-            href={`tel:${COMPANY_INFO.phone.replace(/\D/g, '')}`}
-            className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-4 sm:px-6 py-3 rounded-lg transition transform hover:scale-105 shadow-lg"
+            href="tel:+14235551111"
+            className="flex items-center gap-2 bg-red-500 hover:bg-red-600 px-4 py-2 rounded-full font-bold text-lg transition whitespace-nowrap"
           >
             <Phone size={20} />
-            <span className="hidden sm:inline">{COMPANY_INFO.phone}</span>
-            <span className="sm:hidden">Call Now</span>
+            Call Now
           </a>
         </div>
       </header>
 
-      {/* HERO - EMERGENCY FOCUSED */}
-      <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white py-16 sm:py-24 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-blue-400 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500 rounded-full blur-3xl"></div>
+      {/* Desktop Header */}
+      <header className="hidden md:block bg-white border-b border-gray-200 sticky top-0 z-30">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <img src="/images/logo.png" alt="[COMPANY NAME]" className="h-12 w-auto" />
+          <nav className="flex items-center gap-8">
+            <a href="#services" className="text-gray-700 hover:text-blue-600 transition">
+              Services
+            </a>
+            <a href="#why-us" className="text-gray-700 hover:text-blue-600 transition">
+              Why Us
+            </a>
+            <a href="#reviews" className="text-gray-700 hover:text-blue-600 transition">
+              Reviews
+            </a>
+          </nav>
+          <a
+            href="tel:+14235551111"
+            className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-bold transition"
+          >
+            (423) 555-HVAC
+          </a>
         </div>
+      </header>
 
-        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 bg-red-500/20 border border-red-400 text-red-100 px-4 py-2 rounded-full mb-6">
-                <AlertCircle size={16} />
-                <span className="text-sm font-semibold">Emergency? We're Ready!</span>
-              </div>
+      {/* SECTION 1: HERO */}
+      <section className="relative bg-gradient-to-br from-blue-900 to-blue-700 text-white overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-20"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 1200 600%27%3E%3Crect fill=%27%231B3A5C%27 width=%271200%27 height=%27600%27/%3E%3C/svg%3E")',
+          }}
+        />
 
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                AC Down? Heat Not Working?
-              </h2>
+        <div className="relative max-w-7xl mx-auto px-4 py-16 sm:py-24 lg:py-32">
+          <div className="text-center">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+              Fast, Reliable AC & Furnace Repair in Chattanooga
+            </h1>
+            <p className="text-xl sm:text-2xl mb-4 text-blue-100">
+              Because Your Family's Comfort Can't Wait
+            </p>
+            <p className="text-lg text-blue-100 mb-8">
+              Trusted by 2,500+ Chattanooga Homeowners | 4.9★ Google Rating | Same-Day Service Available
+            </p>
 
-              <p className="text-lg text-blue-100 mb-8">
-                We're here 24/7 to fix your HVAC emergency. Same-day service available. Local Chattanooga team you can trust.
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a
-                  href={`tel:${COMPANY_INFO.phone.replace(/\D/g, '')}`}
-                  className="flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-4 rounded-lg transition transform hover:scale-105 shadow-xl text-lg"
-                >
-                  <Phone size={24} />
-                  Call Now
-                </a>
-                <button
-                  onClick={() => document.getElementById('lead-form')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="flex items-center justify-center gap-2 border-2 border-white hover:bg-white hover:text-blue-900 text-white font-bold px-8 py-4 rounded-lg transition text-lg"
-                >
-                  <Zap size={24} />
-                  Get Help Fast
-                </button>
-              </div>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+              <a
+                href="tel:+14235551111"
+                className="inline-block bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-lg font-bold text-lg transition transform hover:scale-105 active:scale-95"
+              >
+                Call Now — Free Estimate
+              </a>
+              <button className="inline-block bg-white hover:bg-gray-100 text-blue-600 px-8 py-4 rounded-lg font-bold text-lg transition transform hover:scale-105 active:scale-95">
+                Schedule Online
+              </button>
             </div>
 
-            <div className="hidden md:block">
-              <div className="relative">
-                <div className="bg-white/10 backdrop-blur border border-white/20 rounded-2xl p-8 space-y-6">
-                  <div className="flex items-start gap-4">
-                    <div className="bg-green-400/20 p-3 rounded-lg">
-                      <Check className="text-green-300" size={24} />
-                    </div>
-                    <div>
-                      <p className="font-bold text-green-300">Same-Day Service</p>
-                      <p className="text-blue-100 text-sm">Most calls answered within 15 minutes</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="bg-orange-400/20 p-3 rounded-lg">
-                      <Clock className="text-orange-300" size={24} />
-                    </div>
-                    <div>
-                      <p className="font-bold text-orange-300">Available 24/7</p>
-                      <p className="text-blue-100 text-sm">Emergencies don't wait, neither do we</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-4">
-                    <div className="bg-yellow-400/20 p-3 rounded-lg">
-                      <Star className="text-yellow-300" size={24} />
-                    </div>
-                    <div>
-                      <p className="font-bold text-yellow-300">Trusted by 500+ Families</p>
-                      <p className="text-blue-100 text-sm">5-star rated on Google & Facebook</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* TRUST SIGNALS BAR */}
-      <section className="bg-gradient-to-r from-gray-50 to-gray-100 py-8 border-b border-gray-200">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div>
-              <p className="text-3xl font-bold text-blue-900">500+</p>
-              <p className="text-sm text-gray-700">Happy Customers</p>
-            </div>
-            <div>
-              <p className="text-3xl font-bold text-blue-900">4.9★</p>
-              <p className="text-sm text-gray-700">Average Rating</p>
-            </div>
-            <div>
-              <p className="text-3xl font-bold text-blue-900">15 min</p>
-              <p className="text-sm text-gray-700">Avg Response Time</p>
-            </div>
-            <div>
-              <p className="text-3xl font-bold text-blue-900">24/7</p>
-              <p className="text-sm text-gray-700">Always Available</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SERVICES SHOWCASE */}
-      <section className="py-16 sm:py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
-              All Your HVAC Needs Covered
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              From emergency repairs to new installations, we handle it all
+            <p className="text-sm text-blue-200">
+              ⏰ Available 24/7 for Emergency Service
             </p>
           </div>
+        </div>
+      </section>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {CORE_SERVICES.map((service) => (
-              <div key={service.id} className="group bg-gradient-to-br from-gray-50 to-white border border-gray-200 rounded-xl p-8 hover:shadow-xl hover:border-blue-300 transition">
-                <div className="text-5xl mb-4 group-hover:scale-110 transition transform">{service.icon}</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{service.title}</h3>
-                <p className="text-gray-600 mb-4">{service.description}</p>
-                <div className="pt-4 border-t border-gray-200">
-                  <p className="text-sm text-blue-600 font-semibold">Free Diagnosis & Estimate</p>
+      {/* SECTION 2: TRUST STRIP */}
+      <section className="bg-white border-b border-gray-200 py-6">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 items-center justify-center text-center">
+            <div>
+              <div className="flex items-center justify-center gap-1 text-lg font-bold text-gray-800">
+                <Star size={20} className="text-yellow-400 fill-yellow-400" />
+                4.9★
+              </div>
+              <p className="text-sm text-gray-600">847 Reviews</p>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-gray-800">NATE</p>
+              <p className="text-xs text-gray-600">Certified</p>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-gray-800">BBB</p>
+              <p className="text-xs text-gray-600">A+ Accredited</p>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-gray-800">Licensed</p>
+              <p className="text-xs text-gray-600">& Insured</p>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-gray-800">24/7</p>
+              <p className="text-xs text-gray-600">Emergency Service</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3: SERVICES GRID */}
+      <section id="services" className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-4xl font-bold text-center text-gray-900 mb-4">Our Services</h2>
+          <p className="text-center text-gray-600 text-lg mb-12 max-w-2xl mx-auto">
+            Complete HVAC solutions for your home, whatever you need
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: 'AC Repair', emoji: '❄️' },
+              { title: 'AC Installation', emoji: '❄️' },
+              { title: 'Furnace Repair', emoji: '🔥' },
+              { title: 'Furnace Installation', emoji: '🔥' },
+              { title: 'Heat Pump Services', emoji: '🔄' },
+              { title: 'Duct Cleaning', emoji: '💨' },
+              { title: 'Indoor Air Quality', emoji: '💚' },
+              { title: 'Maintenance Plans', emoji: '🛡️' },
+            ].map((service, idx) => (
+              <a
+                key={idx}
+                href="#"
+                className="bg-white p-6 rounded-lg border border-gray-200 hover:shadow-lg hover:border-blue-300 transition text-center group"
+              >
+                <div className="text-4xl mb-4">{service.emoji}</div>
+                <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition">
+                  {service.title}
+                </h3>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 4: WHY CHOOSE US */}
+      <section id="why-us" className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-4xl font-bold text-center text-gray-900 mb-12">Why Choose Us</h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                icon: Clock,
+                title: 'Same-Day Service',
+                description: 'Don\'t wait days for repairs. We respond fast.',
+              },
+              {
+                icon: DollarSign,
+                title: 'Upfront Pricing',
+                description: 'Never worry about surprise charges. You know the cost upfront.',
+              },
+              {
+                icon: Shield,
+                title: 'Background-Checked Technicians',
+                description: 'Highly trained professionals you can trust in your home.',
+              },
+              {
+                icon: CheckCircle,
+                title: '100% Satisfaction Guarantee',
+                description: 'If you\'re not happy, we make it right. No exceptions.',
+              },
+            ].map((item, idx) => (
+              <div key={idx} className="text-center">
+                <div className="flex justify-center mb-4">
+                  <div className="bg-blue-100 p-4 rounded-full">
+                    <item.icon size={32} className="text-blue-600" />
+                  </div>
                 </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
+                <p className="text-gray-600">{item.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section className="py-16 sm:py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-12">
-            Trusted by Chattanooga Families
+      {/* SECTION 5: SOCIAL PROOF / REVIEWS */}
+      <section id="reviews" className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-4xl font-bold text-center text-gray-900 mb-4">
+            Trusted by Thousands of Homeowners
           </h2>
+          <p className="text-center text-gray-600 text-lg mb-12">
+            Real reviews from real customers
+          </p>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {TESTIMONIALS.map((testimonial, idx) => (
-              <div key={idx} className="bg-white rounded-xl shadow-md p-8 border-l-4 border-blue-600">
-                <div className="flex mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={18} className="fill-yellow-400 text-yellow-400" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {[
+              {
+                name: 'Sarah Mitchell',
+                rating: 5,
+                text: 'Emergency AC repair on a Saturday afternoon. They came out in 45 minutes and had it fixed in an hour. Couldn\'t ask for better service!',
+                date: '2 weeks ago',
+              },
+              {
+                name: 'James Rodriguez',
+                rating: 5,
+                text: 'Got 2 other quotes for a furnace replacement. These guys were professional, knowledgeable, and fair priced. Highly recommend!',
+                date: '1 month ago',
+              },
+              {
+                name: 'Jennifer Lee',
+                rating: 5,
+                text: 'Been using their maintenance plan for 3 years now. Never had an unexpected breakdown. Best money we spend each year.',
+                date: '3 weeks ago',
+              },
+              {
+                name: 'Michael Thompson',
+                rating: 5,
+                text: 'The whole team was respectful and professional. They explained everything in plain language. Will definitely call them again.',
+                date: '1 month ago',
+              },
+              {
+                name: 'Amanda Garcia',
+                rating: 5,
+                text: 'Great communication throughout the process. No hidden fees, no surprises. Exactly what they quoted. Very satisfied!',
+                date: '2 months ago',
+              },
+              {
+                name: 'David Chen',
+                rating: 5,
+                text: 'Emergency call at 10 PM. They came out, diagnosed the problem, and got us cooling again. Worth every penny.',
+                date: '1 month ago',
+              },
+            ].map((review, idx) => (
+              <div key={idx} className="bg-white p-6 rounded-lg border border-gray-200">
+                <div className="flex items-center gap-1 mb-2">
+                  {[...Array(review.rating)].map((_, i) => (
+                    <Star key={i} size={16} className="text-yellow-400 fill-yellow-400" />
                   ))}
                 </div>
-                <p className="text-gray-700 mb-4 italic leading-relaxed">"{testimonial.quote}"</p>
-                <p className="font-bold text-gray-900">— {testimonial.name}</p>
-                <p className="text-sm text-gray-500 mt-1">Verified Customer</p>
+                <p className="font-bold text-gray-900">{review.name}</p>
+                <p className="text-sm text-gray-500 mb-3">{review.date}</p>
+                <p className="text-gray-700">{review.text}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <a
+              href="#"
+              className="inline-block border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-lg font-bold transition"
+            >
+              Read All 847 Reviews
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 6: SERVICE AREA MAP */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-4xl font-bold text-center text-gray-900 mb-4">Service Area</h2>
+          <p className="text-center text-gray-600 text-lg mb-12">
+            Proudly serving Greater Chattanooga and surrounding areas
+          </p>
+
+          <div className="bg-gray-200 rounded-lg h-80 mb-8 flex items-center justify-center">
+            <div className="text-center">
+              <p className="text-gray-500 text-lg">[INTERACTIVE SERVICE AREA MAP]</p>
+              <p className="text-gray-400 text-sm">Placeholder for Google Map integration</p>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">We Serve:</h3>
+            <p className="text-lg text-gray-700 mb-2">
+              Chattanooga • Hixson • Collegedale • Signal Mountain • Apison • Ooltewah • Cleveland • Dalton
+            </p>
+            <p className="text-gray-600">
+              And surrounding cities within a 30-mile radius of Chattanooga
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 7: FINANCING / PRICING */}
+      <section className="py-16 bg-gradient-to-br from-blue-50 to-blue-100">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-4xl font-bold text-center text-gray-900 mb-4">
+            Affordable HVAC Solutions
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            {[
+              { level: 'Good', price: '$89', desc: 'Standard AC/Furnace Repair' },
+              {
+                level: 'Better',
+                price: '$189',
+                desc: 'High-Efficiency AC Installation',
+              },
+              {
+                level: 'Best',
+                price: '$289',
+                desc: 'Premium Heat Pump System',
+              },
+            ].map((plan, idx) => (
+              <div
+                key={idx}
+                className={`p-8 rounded-lg text-center transition transform hover:scale-105 ${
+                  idx === 1
+                    ? 'bg-blue-600 text-white shadow-lg border-2 border-blue-700'
+                    : 'bg-white border-2 border-gray-200'
+                }`}
+              >
+                <h3 className="text-xl font-bold mb-2">{plan.level}</h3>
+                <p className={`text-4xl font-bold mb-4 ${idx === 1 ? 'text-blue-100' : ''}`}>
+                  Starting at {plan.price}
+                </p>
+                <p className={idx === 1 ? 'text-blue-100' : 'text-gray-600'}>{plan.desc}</p>
+                <p className={`text-sm mt-4 ${idx === 1 ? 'text-blue-100' : 'text-gray-500'}`}>
+                  Financing available • 0% interest for qualified customers
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-bold transition">
+              Check Your Rate — No Credit Impact
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 8: RECENT WORK / GALLERY */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <h2 className="text-4xl font-bold text-center text-gray-900 mb-12">
+            Recent Work
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((idx) => (
+              <div
+                key={idx}
+                className="bg-gray-200 rounded-lg h-64 flex items-center justify-center group overflow-hidden"
+              >
+                <div className="text-center text-gray-500 group-hover:text-gray-700 transition">
+                  <p className="text-sm">[PHOTO: Installation/Repair]</p>
+                  <p className="text-xs">Image {idx}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* LEAD FORM */}
-      <section id="lead-form" className="py-16 sm:py-20 bg-white">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-br from-blue-900 to-blue-800 text-white rounded-2xl p-8 sm:p-12 shadow-2xl">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Need HVAC Help?</h2>
-            <p className="text-blue-100 mb-8">
-              Fill out the form below and we'll contact you within 1 hour with a free estimate.
-            </p>
-
-            {formStep === 3 ? (
-              <div className="text-center py-8 space-y-4">
-                <p className="text-5xl">✅</p>
-                <p className="text-2xl font-bold">Thank You!</p>
-                <p className="text-blue-100">We've received your information. Our team will call you shortly.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleFormSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-bold mb-2">Name *</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleFormChange}
-                    placeholder="John Smith"
-                    className="w-full px-4 py-3 rounded-lg text-gray-900 focus:ring-2 focus:ring-yellow-400 outline-none"
-                    required
-                  />
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-bold mb-2">Phone *</label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleFormChange}
-                      placeholder="(423) 555-1234"
-                      className="w-full px-4 py-3 rounded-lg text-gray-900 focus:ring-2 focus:ring-yellow-400 outline-none"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold mb-2">Email</label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleFormChange}
-                      placeholder="john@example.com"
-                      className="w-full px-4 py-3 rounded-lg text-gray-900 focus:ring-2 focus:ring-yellow-400 outline-none"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-bold mb-2">What's the Issue? *</label>
-                  <select
-                    name="issue"
-                    value={formData.issue}
-                    onChange={handleFormChange}
-                    className="w-full px-4 py-3 rounded-lg text-gray-900 focus:ring-2 focus:ring-yellow-400 outline-none"
-                    required
-                  >
-                    <option value="">Select an issue...</option>
-                    <option value="🚨 Emergency - System Down">🚨 Emergency - System Down</option>
-                    <option value="❄️ AC Not Cooling">❄️ AC Not Cooling</option>
-                    <option value="🔥 Heat Not Working">🔥 Heat Not Working</option>
-                    <option value="🔄 Need New System">🔄 Need New System</option>
-                    <option value="✓ Maintenance Needed">✓ Maintenance Needed</option>
-                    <option value="💬 Other">💬 Other</option>
-                  </select>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-4 rounded-lg transition transform hover:scale-105 text-lg mt-6"
-                >
-                  Get Free Estimate Now
-                </button>
-
-                <p className="text-center text-xs text-blue-200">
-                  ✓ Free diagnosis • No obligation • Fast response
-                </p>
-              </form>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* WHY CHOOSE US */}
-      <section className="py-16 sm:py-20 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-12">
-            Why Choose Ted Fugunt?
+      {/* SECTION 9: EMERGENCY CTA BANNER */}
+      <section className="bg-red-500 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+            🚨 AC Emergency? We're Available 24/7
           </h2>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <Check className="text-green-600" size={24} />
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-900 text-lg">Licensed & Certified</h3>
-                  <p className="text-gray-600">All our technicians are fully licensed, insured, and background checked.</p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <Check className="text-green-600" size={24} />
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-900 text-lg">Honest Pricing</h3>
-                  <p className="text-gray-600">No hidden fees. Free diagnosis and estimates. You know the price before we start.</p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <Check className="text-green-600" size={24} />
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-900 text-lg">Carrier Dealer</h3>
-                  <p className="text-gray-600">Authorized dealer for premium Carrier equipment with manufacturer warranties.</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <Check className="text-green-600" size={24} />
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-900 text-lg">24/7 Emergency Service</h3>
-                  <p className="text-gray-600">Your comfort doesn't stop at 5pm. We're available anytime, day or night.</p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <Check className="text-green-600" size={24} />
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-900 text-lg">Financing Available</h3>
-                  <p className="text-gray-600">Make your HVAC investment affordable with our flexible financing options.</p>
-                </div>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="flex-shrink-0">
-                  <Check className="text-green-600" size={24} />
-                </div>
-                <div>
-                  <h3 className="font-bold text-gray-900 text-lg">Same-Day Service</h3>
-                  <p className="text-gray-600">Emergency service available same day. Most calls answered within 15 minutes.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA FOOTER */}
-      <section className="py-12 bg-blue-900 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6">Don't Wait. Get Help Now.</h2>
-          <p className="text-lg text-blue-100 mb-8">Your comfort is our priority. Call us today.</p>
           <a
-            href={`tel:${COMPANY_INFO.phone.replace(/\D/g, '')}`}
-            className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-8 py-4 rounded-lg transition transform hover:scale-105 text-xl shadow-xl"
+            href="tel:+14235551111"
+            className="inline-block bg-white text-red-500 hover:bg-gray-100 px-10 py-4 rounded-lg font-bold text-lg transition transform hover:scale-105 active:scale-95"
           >
-            <Phone size={28} />
-            {COMPANY_INFO.phone}
+            Call Now: (423) 555-HVAC
           </a>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-gray-900 text-gray-300 py-12">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
+      {/* SECTION 10: FOOTER */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
             <div>
-              <img src="/images/logo.png" alt="Ted Fugunt" className="h-16 w-auto mb-4" />
-              <p className="text-sm">{COMPANY_INFO.description}</p>
+              <img src="/images/logo.png" alt="[COMPANY NAME]" className="h-12 w-auto mb-4" />
+              <p className="text-gray-400">
+                Trusted HVAC repair & installation in Chattanooga since 2010.
+              </p>
             </div>
+
             <div>
-              <h4 className="text-lg font-bold text-white mb-4">Contact</h4>
-              <p className="text-sm mb-2">📍 {COMPANY_INFO.address}</p>
-              <p className="text-sm mb-2">📞 {COMPANY_INFO.phone}</p>
-              <p className="text-sm">✉️ {COMPANY_INFO.email}</p>
+              <h4 className="font-bold text-lg mb-4">Quick Links</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>
+                  <a href="#services" className="hover:text-white transition">
+                    Services
+                  </a>
+                </li>
+                <li>
+                  <a href="#reviews" className="hover:text-white transition">
+                    Reviews
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition">
+                    Financing
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-white transition">
+                    Contact
+                  </a>
+                </li>
+              </ul>
             </div>
+
             <div>
-              <h4 className="text-lg font-bold text-white mb-4">Hours</h4>
-              <p className="text-sm mb-2">Weekdays: {COMPANY_INFO.hours.weekday}</p>
-              <p className="text-sm text-orange-400">{COMPANY_INFO.hours.emergency}</p>
+              <h4 className="font-bold text-lg mb-4">Contact Info</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li className="flex items-center gap-2">
+                  <Phone size={18} />
+                  <a href="tel:+14235551111" className="hover:text-white transition">
+                    (423) 555-HVAC
+                  </a>
+                </li>
+                <li>
+                  <a href="mailto:info@example.com" className="hover:text-white transition">
+                    info@example.com
+                  </a>
+                </li>
+                <li>Mon-Fri: 7 AM - 7 PM</li>
+                <li>24/7 Emergency Service</li>
+              </ul>
+            </div>
+
+            <div>
+              <h4 className="font-bold text-lg mb-4">Service Areas</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li>Chattanooga</li>
+                <li>Hixson</li>
+                <li>Collegedale</li>
+                <li>Signal Mountain</li>
+                <li>+ 20 more areas</li>
+              </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 pt-8 text-center text-sm">
-            <p>&copy; 2024 {COMPANY_INFO.name}. All rights reserved.</p>
+
+          <div className="border-t border-gray-800 pt-8">
+            <div className="flex flex-col sm:flex-row justify-between items-center">
+              <p className="text-gray-400 text-sm">
+                © 2026 [COMPANY NAME]. Licensed, Bonded & Insured.
+              </p>
+              <div className="flex gap-4 mt-4 sm:mt-0">
+                <a href="#" className="text-gray-400 hover:text-white transition">
+                  Privacy Policy
+                </a>
+                <a href="#" className="text-gray-400 hover:text-white transition">
+                  Terms of Service
+                </a>
+                <a href="#" className="text-gray-400 hover:text-white transition">
+                  Sitemap
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
 
-      {/* CHATBOT WIDGET */}
+      {/* Chatbot Widget */}
       <ChatbotWidget />
-    </>
+    </div>
   )
 }
