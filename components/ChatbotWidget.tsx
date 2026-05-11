@@ -353,6 +353,22 @@ export default function ChatbotWidget() {
 
         {/* Quick Reply Buttons or Input */}
         <div className="px-4 pb-4 pt-2 bg-gray-50 border-t border-gray-200">
+          {step === 'greeting' && (
+            <div className="space-y-2">
+              <button
+                onClick={() => {
+                  setStep('need')
+                  setTimeout(() => {
+                    addMessage('What do you need help with?', 'bot')
+                  }, 300)
+                }}
+                className="w-full px-4 py-3 text-sm bg-blue-600 text-white font-bold rounded hover:bg-blue-700 transition"
+              >
+                Let's Get Started →
+              </button>
+            </div>
+          )}
+
           {step === 'need' && (
             <div className="space-y-2">
               {[
