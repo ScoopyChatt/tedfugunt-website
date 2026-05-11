@@ -72,8 +72,28 @@ export default function ChatbotWidget() {
     }, 3000)
   }
 
+  const handleReopenClick = () => {
+    setIsOpen(true)
+    setStep(0)
+    setFormData({ name: '', phone: '', issue: '' })
+    setHasInteracted(false)
+  }
+
   if (!isOpen) {
-    return null
+    return (
+      <div className="fixed bottom-6 right-6 z-40">
+        <button
+          onClick={handleReopenClick}
+          className="bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-2xl hover:shadow-3xl transition-all transform hover:scale-110 active:scale-95"
+          aria-label="Open chat support"
+        >
+          <MessageCircle size={28} />
+        </button>
+        <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
+          1
+        </div>
+      </div>
+    )
   }
 
   return (
