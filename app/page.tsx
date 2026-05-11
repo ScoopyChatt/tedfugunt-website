@@ -2,8 +2,8 @@ import { Star, Phone, Clock, Shield, Zap, CheckCircle, DollarSign } from 'lucide
 import ChatbotWidget from '@/components/ChatbotWidget'
 
 export const metadata = {
-  title: 'HVAC Repair & Installation in Chattanooga | Same-Day Service',
-  description: 'Fast, reliable HVAC repair & installation in Chattanooga. Trusted by 2,500+ homeowners. 4.9★ Google Rating. 24/7 Emergency Service. Free Estimates.',
+  title: 'Ted Fugunt Heating & Air | HVAC Repair & Installation in Chattanooga, TN',
+  description: 'Professional HVAC repair, installation & maintenance in Chattanooga. Trusted by hundreds. 5-star rated. Carrier Authorized Dealer. 24/7 Emergency Service. Free Estimates.',
 }
 
 export default function HomePage() {
@@ -17,16 +17,16 @@ export default function HomePage() {
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'HVACBusiness',
-            name: '[COMPANY NAME]',
-            telephone: '(423) 555-HVAC',
-            email: 'info@example.com',
-            url: 'https://example.com',
+            name: 'Ted Fugunt Heating & Air',
+            telephone: '(423) 894-3723',
+            email: 'info@tedfugunt.com',
+            url: 'https://www.tedfugunt.com',
             address: {
               '@type': 'PostalAddress',
-              streetAddress: '[ADDRESS]',
+              streetAddress: 'Chattanooga',
               addressLocality: 'Chattanooga',
               addressRegion: 'TN',
-              postalCode: '37402',
+              postalCode: '37421',
               addressCountry: 'US',
             },
             openingHoursSpecification: [
@@ -34,19 +34,20 @@ export default function HomePage() {
                 '@type': 'OpeningHoursSpecification',
                 dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
                 opens: '07:00',
-                closes: '19:00',
+                closes: '17:00',
               },
             ],
             areaServed: [
               { '@type': 'City', name: 'Chattanooga' },
               { '@type': 'City', name: 'Hixson' },
               { '@type': 'City', name: 'Collegedale' },
+              { '@type': 'City', name: 'Signal Mountain' },
             ],
             priceRange: '$$',
             aggregateRating: {
               '@type': 'AggregateRating',
-              ratingValue: '4.9',
-              reviewCount: '847',
+              ratingValue: '5.0',
+              reviewCount: '9',
             },
           }),
         }}
@@ -55,9 +56,9 @@ export default function HomePage() {
       {/* Sticky Mobile Header with Phone */}
       <header className="sticky top-0 z-30 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 md:hidden">
         <div className="flex items-center justify-between gap-4">
-          <img src="/images/logo.png" alt="[COMPANY NAME]" className="h-10 w-auto" />
+          <img src="/images/logo.png" alt="Ted Fugunt Heating & Air" className="h-10 w-auto" />
           <a
-            href="tel:+14235551111"
+            href="tel:+14238943723"
             className="flex items-center gap-2 bg-red-500 hover:bg-red-600 px-4 py-2 rounded-full font-bold text-lg transition whitespace-nowrap"
           >
             <Phone size={20} />
@@ -69,7 +70,7 @@ export default function HomePage() {
       {/* Desktop Header */}
       <header className="hidden md:block bg-white border-b border-gray-200 sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <img src="/images/logo.png" alt="[COMPANY NAME]" className="h-12 w-auto" />
+          <img src="/images/logo.png" alt="Ted Fugunt Heating & Air" className="h-12 w-auto" />
           <nav className="flex items-center gap-8">
             <a href="#services" className="text-gray-700 hover:text-blue-600 transition">
               Services
@@ -82,10 +83,10 @@ export default function HomePage() {
             </a>
           </nav>
           <a
-            href="tel:+14235551111"
+            href="tel:+14238943723"
             className="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-bold transition"
           >
-            (423) 555-HVAC
+            (423) 894-3723
           </a>
         </div>
       </header>
@@ -103,29 +104,29 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-4 py-16 sm:py-24 lg:py-32">
           <div className="text-center">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              Fast, Reliable AC & Furnace Repair in Chattanooga
+              Professional HVAC Repair & Installation in Chattanooga
             </h1>
             <p className="text-xl sm:text-2xl mb-4 text-blue-100">
-              Because Your Family's Comfort Can't Wait
+              Trusted to Do It Right the First Time
             </p>
             <p className="text-lg text-blue-100 mb-8">
-              Trusted by 2,500+ Chattanooga Homeowners | 4.9★ Google Rating | Same-Day Service Available
+              Carrier Authorized Dealer | 5-Star Rated | Emergency Service Available 24/7
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <a
-                href="tel:+14235551111"
+                href="tel:+14238943723"
                 className="inline-block bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-lg font-bold text-lg transition transform hover:scale-105 active:scale-95"
               >
-                Call Now — Free Estimate
+                Call Now: (423) 894-3723
               </a>
               <button className="inline-block bg-white hover:bg-gray-100 text-blue-600 px-8 py-4 rounded-lg font-bold text-lg transition transform hover:scale-105 active:scale-95">
-                Schedule Online
+                Request Service
               </button>
             </div>
 
             <p className="text-sm text-blue-200">
-              ⏰ Available 24/7 for Emergency Service
+              ⏰ Available 24/7 for Emergency Service | Free Estimates
             </p>
           </div>
         </div>
@@ -138,21 +139,21 @@ export default function HomePage() {
             <div>
               <div className="flex items-center justify-center gap-1 text-lg font-bold text-gray-800">
                 <Star size={20} className="text-yellow-400 fill-yellow-400" />
-                4.9★
+                5.0★
               </div>
-              <p className="text-sm text-gray-600">847 Reviews</p>
+              <p className="text-sm text-gray-600">9+ Reviews</p>
             </div>
             <div>
-              <p className="text-sm font-bold text-gray-800">NATE</p>
-              <p className="text-xs text-gray-600">Certified</p>
-            </div>
-            <div>
-              <p className="text-sm font-bold text-gray-800">BBB</p>
-              <p className="text-xs text-gray-600">A+ Accredited</p>
+              <p className="text-sm font-bold text-gray-800">Carrier</p>
+              <p className="text-xs text-gray-600">Authorized Dealer</p>
             </div>
             <div>
               <p className="text-sm font-bold text-gray-800">Licensed</p>
               <p className="text-xs text-gray-600">& Insured</p>
+            </div>
+            <div>
+              <p className="text-sm font-bold text-gray-800">5+ Years</p>
+              <p className="text-xs text-gray-600">In Business</p>
             </div>
             <div>
               <p className="text-sm font-bold text-gray-800">24/7</p>
@@ -316,23 +317,23 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-4xl font-bold text-center text-gray-900 mb-4">Service Area</h2>
           <p className="text-center text-gray-600 text-lg mb-12">
-            Proudly serving Greater Chattanooga and surrounding areas
+            Proudly Serving Chattanooga and the Surrounding Communities
           </p>
 
           <div className="bg-gray-200 rounded-lg h-80 mb-8 flex items-center justify-center">
             <div className="text-center">
-              <p className="text-gray-500 text-lg">[INTERACTIVE SERVICE AREA MAP]</p>
-              <p className="text-gray-400 text-sm">Placeholder for Google Map integration</p>
+              <p className="text-gray-500 text-lg">[SERVICE AREA MAP]</p>
+              <p className="text-gray-400 text-sm">Covering Chattanooga, TN 37421 and surrounding areas</p>
             </div>
           </div>
 
           <div className="text-center">
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">We Serve:</h3>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">Serving Greater Chattanooga:</h3>
             <p className="text-lg text-gray-700 mb-2">
-              Chattanooga • Hixson • Collegedale • Signal Mountain • Apison • Ooltewah • Cleveland • Dalton
+              Chattanooga • Hixson • East Brainerd • Collegedale • Signal Mountain • North Shore • Lookout Mountain
             </p>
             <p className="text-gray-600">
-              And surrounding cities within a 30-mile radius of Chattanooga
+              And all surrounding communities in the Chattanooga area
             </p>
           </div>
         </div>
@@ -347,16 +348,16 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             {[
-              { level: 'Good', price: '$89', desc: 'Standard AC/Furnace Repair' },
+              { level: 'Repair', price: '$89+', desc: 'AC & Furnace Repair Service Calls' },
               {
-                level: 'Better',
-                price: '$189',
-                desc: 'High-Efficiency AC Installation',
+                level: 'Installation',
+                price: 'From $2,500',
+                desc: 'New System Installation',
               },
               {
-                level: 'Best',
-                price: '$289',
-                desc: 'Premium Heat Pump System',
+                level: 'Maintenance',
+                price: 'Plans Available',
+                desc: 'Annual Service Agreements',
               },
             ].map((plan, idx) => (
               <div
@@ -414,13 +415,13 @@ export default function HomePage() {
       <section className="bg-red-500 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            🚨 AC Emergency? We're Available 24/7
+            🚨 HVAC Emergency? We're Available 24/7
           </h2>
           <a
-            href="tel:+14235551111"
+            href="tel:+14238943723"
             className="inline-block bg-white text-red-500 hover:bg-gray-100 px-10 py-4 rounded-lg font-bold text-lg transition transform hover:scale-105 active:scale-95"
           >
-            Call Now: (423) 555-HVAC
+            Call Now: (423) 894-3723
           </a>
         </div>
       </section>
@@ -430,9 +431,9 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
             <div>
-              <img src="/images/logo.png" alt="[COMPANY NAME]" className="h-12 w-auto mb-4" />
+              <img src="/images/logo.png" alt="Ted Fugunt Heating & Air" className="h-12 w-auto mb-4" />
               <p className="text-gray-400">
-                Trusted HVAC repair & installation in Chattanooga since 2010.
+                Professional HVAC repair & installation trusted by Chattanooga families. Carrier Authorized Dealer.
               </p>
             </div>
 
@@ -451,7 +452,7 @@ export default function HomePage() {
                 </li>
                 <li>
                   <a href="#" className="hover:text-white transition">
-                    Financing
+                    About Us
                   </a>
                 </li>
                 <li>
@@ -467,17 +468,13 @@ export default function HomePage() {
               <ul className="space-y-2 text-gray-400">
                 <li className="flex items-center gap-2">
                   <Phone size={18} />
-                  <a href="tel:+14235551111" className="hover:text-white transition">
-                    (423) 555-HVAC
+                  <a href="tel:+14238943723" className="hover:text-white transition">
+                    (423) 894-3723
                   </a>
                 </li>
-                <li>
-                  <a href="mailto:info@example.com" className="hover:text-white transition">
-                    info@example.com
-                  </a>
-                </li>
-                <li>Mon-Fri: 7 AM - 7 PM</li>
-                <li>24/7 Emergency Service</li>
+                <li>Chattanooga, TN 37421</li>
+                <li>Mon-Fri: 7 AM - 5 PM</li>
+                <li className="text-red-400 font-semibold">24/7 Emergency Service</li>
               </ul>
             </div>
 
@@ -488,7 +485,7 @@ export default function HomePage() {
                 <li>Hixson</li>
                 <li>Collegedale</li>
                 <li>Signal Mountain</li>
-                <li>+ 20 more areas</li>
+                <li>+ More areas</li>
               </ul>
             </div>
           </div>
@@ -496,7 +493,7 @@ export default function HomePage() {
           <div className="border-t border-gray-800 pt-8">
             <div className="flex flex-col sm:flex-row justify-between items-center">
               <p className="text-gray-400 text-sm">
-                © 2026 [COMPANY NAME]. Licensed, Bonded & Insured.
+                © 2026 Ted Fugunt Heating & Air. Licensed, Bonded & Insured. Carrier Authorized Dealer.
               </p>
               <div className="flex gap-4 mt-4 sm:mt-0">
                 <a href="#" className="text-gray-400 hover:text-white transition">
@@ -504,9 +501,6 @@ export default function HomePage() {
                 </a>
                 <a href="#" className="text-gray-400 hover:text-white transition">
                   Terms of Service
-                </a>
-                <a href="#" className="text-gray-400 hover:text-white transition">
-                  Sitemap
                 </a>
               </div>
             </div>

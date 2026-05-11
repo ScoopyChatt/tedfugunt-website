@@ -100,7 +100,7 @@ export default function ChatbotWidget() {
         if (isEmergency) {
           // For emergencies, show phone number immediately
           addMessage(
-            '⚠️ For emergencies, call us right now at (423) 555-HVAC — we have technicians available 24/7.',
+            '⚠️ For emergencies, call us right now at (423) 894-3723 — we have technicians available 24/7.',
             'bot'
           )
           setTimeout(() => {
